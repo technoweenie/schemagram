@@ -4,7 +4,7 @@ Generate JSON Schema files from Ruby.
 
 ```ruby
 # Basic example at http://json-schema.org/examples.html
-Schemagram.generate :v4 do
+Schemagram.generate :draft_4 do
   title "Example Schema"
   property :firstName, :string, :required => true
   property :lastName, :string, :required => true
@@ -16,7 +16,7 @@ end
 
 ```ruby
 # Simple example at http://json-schema.org/example1.html
-Schemagram.generate :v4 do
+Schemagram.generate :draft_4 do
   title "Product set"
   type :array
   items do
