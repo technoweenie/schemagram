@@ -20,7 +20,10 @@ class GeneratorTest < Test::Unit::TestCase
       property :foo, :bar
     end
 
-    assert_equal [[:foo, :bar]], schema.properties
+    assert_equal 1, schema.properties.size
+    assert property = schema.properties[0]
+    assert_equal 'foo', property.name
+    assert_equal 'bar', property.type
   end
 
   class Schema

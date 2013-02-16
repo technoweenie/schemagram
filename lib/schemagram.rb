@@ -7,7 +7,7 @@ module Schemagram
       Generator.new(schema, &block)
       schema
     else
-      raise ArgumentError, "Unknown schema #{schema_key.inspect}"
+      raise ArgumentError, "Unknown schema #{schema_key.inspect} in #{schemas.keys.inspect}"
     end
   end
 
@@ -20,6 +20,7 @@ module Schemagram
       end
       schemas[key] = klass
     else
+      value
     end
   end
 
@@ -30,6 +31,7 @@ module Schemagram
   dir = File.dirname(__FILE__) << "/schemagram"
   require "#{dir}/schema"
   require "#{dir}/generator"
+  require "#{dir}/serializer"
 
   schemas[:draft_4] = ["#{dir}/schemas/draft_4", "Schemagram", "Schemas", "Draft4"]
 end
