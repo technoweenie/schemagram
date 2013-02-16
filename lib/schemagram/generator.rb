@@ -5,6 +5,10 @@ module Schemagram
       instance_eval(&block)
     end
 
+    def property(name, type, options = nil)
+      @object.properties << Schema::Property.new(name, type, options)
+    end
+
     def method_missing(method, *args)
       if args.size == 1 && @object.respond_to?("#{method}=")
         @object.send("#{method}=", args[0])
