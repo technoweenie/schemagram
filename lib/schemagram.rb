@@ -1,6 +1,16 @@
 module Schemagram
   VERSION = "0.0.1"
 
+  def self.generate(schema_key, &block)
+    if schema_class = schema(schema_key)
+      schema = schema_class.new
+      Generator.new(schema, &block)
+      schema
+    else
+      raise ArgumentError, "Unknown schema #{schema_key.inspect}"
+    end
+  end
+
   def self.schema(key)
     case value = schemas[key]
     when Array
@@ -19,6 +29,7 @@ module Schemagram
 
   dir = File.dirname(__FILE__) << "/schemagram"
   require "#{dir}/schema"
+  require "#{dir}/generator"
 
   schemas[:draft_4] = ["#{dir}/schemas/draft_4", "Schemagram", "Schemas", "Draft4"]
 end
