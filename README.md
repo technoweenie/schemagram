@@ -23,9 +23,9 @@ Schemagram.generate :draft_4 do
   title "Product set"
 
   type :array do
-    title: "Product"
+    title "Product"
 
-    type: "object" do
+    type :object do
       propery :id, :number, :required => true
         :description => "The unique identifier for a product"
 
