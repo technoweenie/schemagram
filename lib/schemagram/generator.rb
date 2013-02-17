@@ -5,8 +5,8 @@ module Schemagram
       instance_eval(&block)
     end
 
-    def property(name, type, options = nil)
-      @object.properties << Schema::Property.new(name, type, options)
+    def type(value, &block)
+      @object.setup_type(value, &block)
     end
 
     def method_missing(method, *args)
@@ -17,6 +17,12 @@ module Schemagram
         @object.send(method, *args, &block)
       else
         super
+      end
+    end
+
+    class Object < Generator
+      def property(name, type, options = nil)
+        @object.properties << Schema::Property.new(name, type, options)
       end
     end
   end

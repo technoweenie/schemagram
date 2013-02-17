@@ -4,13 +4,14 @@ class SerializerTest < Test::Unit::TestCase
   # http://json-schema.org/examples.html
   def test_basic_example
     schema = Schemagram.generate :draft_4 do
-      title "Example Schema"
-      type :object
-      property :firstName, :string, :required => true
-      property :lastName, :string, :required => true
-      property :age, :integer,
-        :description => "Age in years",
-        :minimum => 0
+      type :object do
+        title "Example Schema"
+        property :firstName, :string, :required => true
+        property :lastName, :string, :required => true
+        property :age, :integer,
+          :description => "Age in years",
+          :minimum => 0
+      end
     end
 
     expected = {

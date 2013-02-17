@@ -7,7 +7,7 @@ module Schemagram
     def self.schema(schema)
       serialize do
         serialize_schema(schema)
-        serialize_object(schema)
+        serialize_object(schema.root)
       end
     end
 
@@ -27,16 +27,15 @@ module Schemagram
         output = @output
       end
 
-      %w(title type).each do |attr|
-        if value = schema.send(attr)
-          output[attr] = value.to_s
-        end
-      end
-
       self
     end
 
     def serialize_object(object, output = @output)
+      %w(title type).each do |attr|
+        next unless value = object.send(attr)
+        output[attr] = value.to_s
+      end
+
       return if (properties = object.properties).empty?
       required = []
       properties_output = output['properties'] = {}
