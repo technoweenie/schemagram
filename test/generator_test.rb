@@ -2,41 +2,34 @@ require File.expand_path("../helper", __FILE__)
 
 class GeneratorTest < Test::Unit::TestCase
   def test_sets_properties
-    schema = Schema.new
-    assert_nil schema.title
+    schema = Schemagram::Schema.new
+    assert_nil schema.root
 
     Schemagram::Generator.new schema do
-      title "foo"
+      type :object do
+        title "foo"
+      end
     end
 
-    assert_equal "foo", schema.title
+    assert object = schema.root
+    assert_equal "foo", object.title
   end
 
   def test_calls_methods
-    schema = Schema.new
-    assert_equal [], schema.properties
+    schema = Schemagram::Schema.new
+    assert_nil schema.root
 
     Schemagram::Generator.new schema do
-      property :foo, :bar
+      type :object do
+        property :foo, :bar
+      end
     end
 
-    assert_equal 1, schema.properties.size
-    assert property = schema.properties[0]
+    assert object = schema.root
+    assert_equal 1, object.properties.size
+    assert property = object.properties[0]
     assert_equal 'foo', property.name
     assert_equal 'bar', property.type
-  end
-
-  class Schema
-    attr_accessor :title
-    attr_reader :properties
-
-    def property(name, type)
-      @properties << [name, type]
-    end
-
-    def initialize
-      @properties = []
-    end
   end
 end
 

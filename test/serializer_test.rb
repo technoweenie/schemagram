@@ -4,13 +4,14 @@ class SerializerTest < Test::Unit::TestCase
   # http://json-schema.org/examples.html
   def test_basic_example
     schema = Schemagram.generate :draft_4 do
-      title "Example Schema"
-      type :object
-      property :firstName, :string, :required => true
-      property :lastName, :string, :required => true
-      property :age, :integer,
-        :description => "Age in years",
-        :minimum => 0
+      type :object do
+        title "Example Schema"
+        property :firstName, :string, :required => true
+        property :lastName, :string, :required => true
+        property :age, :integer,
+          :description => "Age in years",
+          :minimum => 0
+      end
     end
 
     expected = {
@@ -34,6 +35,26 @@ class SerializerTest < Test::Unit::TestCase
     }
 
     assert_equal expected, schema.to_hash
+  end
+
+  def test_object_with_array
+    schema = Schemagram.generate :draft_4 do
+      type :object do
+        title "Product"
+        property :id, :integer, :required => true
+        property :name, :string, :required => true
+        property :price, :number, :required => true
+        property :tags, :array do
+          puts 'hi'
+          items do
+            puts 'items'
+            type :string
+          end
+        end
+      end
+    end
+
+    p schema
   end
 end
 

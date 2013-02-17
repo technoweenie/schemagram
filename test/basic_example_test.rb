@@ -6,22 +6,24 @@ class BasicExampleTest < Test::Unit::TestCase
   end
 
   def test_title
-    assert_equal "Example", @@schema.title
+    assert_equal "Example", @@schema.root.title
   end
 
   def test_properties
-    assert_equal 2, @@schema.properties.size
+    assert_equal 2, @@schema.root.properties.size
 
-    assert property = @@schema.properties[0]
+    assert property = @@schema.root.properties[0]
     assert_equal 'name', property.name
     assert_equal 'string', property.type
     assert property.options[:required]
   end
 
   @@schema = Schemagram.generate :draft_4 do
-    title "Example"
-    property :name, :string, :required => true
-    property :age, :integer
+    type :object do
+      title "Example"
+      property :name, :string, :required => true
+      property :age, :integer
+    end
   end
 end
 
