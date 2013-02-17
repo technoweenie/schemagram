@@ -15,7 +15,7 @@ module Schemagram
     end
 
     def to_hash
-      Serializer.new(self).output
+      Serializer.schema(self)
     end
 
     class Property

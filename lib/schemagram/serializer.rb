@@ -4,18 +4,36 @@ module Schemagram
   class Serializer
     attr_reader :output
 
-    def initialize(schema)
-      @output = {"$schema" => schema.schema_uri}
-      serialize_schema(schema)
-      serialize_object(schema)
+    def self.schema(schema)
+      serialize do
+        serialize_schema(schema)
+        serialize_object(schema)
+      end
     end
 
-    def serialize_schema(schema, output = @output)
+    def self.serialize
+      instance = new
+      instance.instance_eval(&Proc.new) if block_given?
+      instance.output
+    end
+
+    def initialize
+      @output = {}
+    end
+
+    def serialize_schema(schema, output = nil)
+      if !output
+        @output['$schema'] ||= schema.schema_uri
+        output = @output
+      end
+
       %w(title type).each do |attr|
         if value = schema.send(attr)
           output[attr] = value.to_s
         end
       end
+
+      self
     end
 
     def serialize_object(object, output = @output)
@@ -27,6 +45,8 @@ module Schemagram
         (required << property.name) if property.options[:required]
       end
       output['required'] = required unless required.empty?
+
+      self
     end
 
     def serialize_property(property)
