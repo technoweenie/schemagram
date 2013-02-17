@@ -1,12 +1,15 @@
 module Schemagram
   class Generator
+    attr_reader :object
+
     def initialize(object, &block)
       @object = object
       instance_eval(&block)
     end
 
     def type(value, &block)
-      @object.setup_type(value, &block)
+      generator = Object.new(&block)
+      @object.root = generator.object
     end
 
     def method_missing(method, *args)
@@ -21,6 +24,14 @@ module Schemagram
     end
 
     class Object < Generator
+      def self.schema_class
+        Schema::Object
+      end
+
+      def initialize(&block)
+        super(self.class.schema_class.new, &block)
+      end
+
       def property(name, type, options = nil)
         @object.properties << Schema::Property.new(name, type, options)
       end

@@ -4,16 +4,11 @@ module Schemagram
       attr_accessor :schema_uri
     end
 
-    attr_reader :root
+    attr_accessor :root
     attr_reader :schema_uri
 
     def initialize
       @schema_uri = self.class.schema_uri
-    end
-
-    def setup_type(value, &block)
-      @root = Object.new
-      @root.generator(&block)
     end
 
     def to_hash
@@ -26,10 +21,6 @@ module Schemagram
 
       def type
         :object
-      end
-
-      def generator(&block)
-        Generator::Object.new(self, &block)
       end
 
       def initialize
