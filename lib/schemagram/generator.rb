@@ -33,7 +33,7 @@ module Schemagram
       end
 
       def property(name, type, options = nil)
-        @object.properties << Schema::Property.new(name, type, options)
+        @object.properties << Schema::Object::Property.new(name, type, options)
       end
     end
   end

@@ -26,17 +26,17 @@ module Schemagram
       def initialize
         @properties = []
       end
-    end
 
-    class Property
-      attr_reader :name
-      attr_reader :type
-      attr_reader :options
+      class Property
+        attr_reader :name
+        attr_reader :type
+        attr_reader :options
 
-      def initialize(name, type, options = nil)
-        @name = name.to_s
-        @type = type.to_s
-        @options = options || {}
+        def initialize(name, type, options = nil)
+          @name = name.to_s
+          @type = type.to_s
+          @options = options || {}
+        end
       end
     end
   end
