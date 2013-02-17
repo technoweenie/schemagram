@@ -39,6 +39,26 @@ module Schemagram
         end
       end
     end
+
+    class Array
+      def initialize
+        @items = []
+      end
+
+      def type
+        :array
+      end
+
+      class Property
+        attr_reader :name
+        attr_reader :array
+
+        def initialize(name, array)
+          @name = name
+          @array = array
+        end
+      end
+    end
   end
 end
 
